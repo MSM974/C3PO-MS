@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif!important;
+  background-image: url('../../images/side-wave_background.svg');
+  color: var(--primary);
+}
+
+/* Style global pour les titres */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: var(--light);
+}
+
+
+/* text colors */
+
+.text-green {
+  color: var(--success);
+
+}
+.text-yellow {
+  color: var(--warning);
+}
+.text-navy {
+  color: var(--primary);
+}

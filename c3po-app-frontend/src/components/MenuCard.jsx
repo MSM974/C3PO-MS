@@ -30,7 +30,7 @@ const MenuCard = ({
   const exceptionalDay = EXCEPTIONAL_DAYS[dayKey];
 
   return (
-    <div className="border rounded p-3 bg-white">
+    <div className="border rounded p-3 bg-white text-navy">
       {/* Show exceptional day notice */}
       {exceptionalDay && (
         <div
@@ -42,8 +42,6 @@ const MenuCard = ({
           {exceptionalDay.message}
         </div>
       )}
-
-      <h5 className="card-type fw-bold text-center">{choice}</h5>
 
       <p className="card-text">
         <strong className="fs-6">Entrée :</strong><br />{entree}

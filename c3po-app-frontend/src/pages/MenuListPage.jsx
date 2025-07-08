@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MenuList from '../components/MenuList';
 import Navbar from '../components/Navbar';
-import '../css/style.css';
 
 const MenuListPage = () => {
   const location = useLocation();

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/style.css';
-import logoC3PO from '../assets/C3PO_logo.png';
+import logoC3PO from '../assets/images/C3PO_logo.png';
 
 const Navbar = () => {
   const navigate = useNavigate();

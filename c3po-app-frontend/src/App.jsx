@@ -1,7 +1,7 @@
 import React from "react";
 import MenuList from "./components/MenuList";
 import MenuCard from "./components/MenuCard";
-import "./index.css";
+import './assets/css/main.css';
 import Navbar from "./components/Navbar";
 
 

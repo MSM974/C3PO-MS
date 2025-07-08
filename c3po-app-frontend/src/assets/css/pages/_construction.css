@@ -1,0 +1,41 @@
+/* FOR PAGE BUILDING */
+
+/* Fond général */
+.construction-container {
+  background-color: fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bloc centré */
+.construction-content {
+  text-align: center;
+  background-color:var(--primary);
+  border-radius: 0 1rem 1rem;
+  padding: 3rem;
+}
+
+/* Icône engrenage tournant */
+.rotating-icon {
+  font-size: 70px;
+  color: var(--warning);
+  animation: rotate 2s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Titre */
+.construction-title {
+  color: var(--success);
+  font-weight: 900;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* Paragraphe */
+.construction-message {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}

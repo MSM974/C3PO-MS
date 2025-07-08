@@ -1,0 +1,69 @@
+/* Style pour les boutons */
+.btn {
+  font-weight: bold;
+  border-radius: 0 1rem 1rem;
+}
+
+
+
+/* YELLOW */
+
+.btn-yellow {
+  background-color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.btn-yellow:hover {
+  background-color: #fcc52265;
+  border-color: var(--warning);
+}
+
+
+/* GREEN */
+
+.btn-green {
+  background-color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.btn-green:hover {
+  background-color: #0b9c6ec9;
+  border-color: var(--success);
+}
+
+/* NAVY  */
+
+.btn-navy {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-navy:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+/* DANGER */
+
+.btn-danger {
+  background-color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+
+/* GREY */
+
+.btn-grey {
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+.btn-grey:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}

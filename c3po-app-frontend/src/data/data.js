@@ -9,7 +9,7 @@ export const menus = [
         name: "Poulet rôti",
         description: "Avec pommes de terre",
         type: "Déjeuner",
-        choice: "Choix 1",
+        choice: "Menu A",
         center: "Centre A",
         reserved: 5,
         consumed: 3,
@@ -22,7 +22,7 @@ export const menus = [
         name: "Gratin dauphinois",
         description: "Sans viande",
         type: "Déjeuner",
-        choice: "Choix 2",
+        choice: "Menu B",
         center: "Centre A",
         reserved: 2,
         consumed: 1,
@@ -40,7 +40,7 @@ export const menus = [
         name: "Poisson au four",
         description: "Avec riz haricots rouges",
         type: "Déjeuner",
-        choice: "Choix 1",
+        choice: "Menu A",
         center: "Centre A",
         reserved: 4,
         consumed: 3,
@@ -53,7 +53,7 @@ export const menus = [
         name: "Cordon bleu",
         description: "Avec haricots blancs",
         type: "Déjeuner",
-        choice: "Choix 2",
+        choice: "Menu B",
         center: "Centre A",
         reserved: 5,
         consumed: 2,
@@ -71,7 +71,7 @@ export const menus = [
         name: "Sauté de Dinde",
         description: "Avec lentilles",
         type: "Déjeuner",
-        choice: "Choix 1",
+        choice: "Menu A",
         center: "Centre A",
         reserved: 3,
         consumed: 2,
@@ -84,12 +84,12 @@ export const menus = [
         name: "Cuisse poulet sarcive",
         description: "Avec pois du cap",
         type: "Déjeuner",
-        choice: "Choix 2",
+        choice: "Menu B",
         center: "Centre A",
         reserved: 1,
         consumed: 0,
-        entree: "Salade exotique",
-        plat: "Riz Pois du cap Cuisse de poulet Sarcive",
+        entree: "Salade carottes",
+        plat: "Riz Pois du cap Poulet Sarcive",
         dessert: "Fruit",
       },
     ],
@@ -102,11 +102,11 @@ export const menus = [
         name: "Steak frites",
         description: "Maison",
         type: "Déjeuner",
-        choice: "Choix 1",
+        choice: "Menu A",
         center: "Centre A",
         reserved: 6,
         consumed: 5,
-        entree: "Salade carottes",
+        entree: "Taboulé",
         plat: "Steak boeuf frites maison",
         dessert: "Moelleux chocolat",
       },
@@ -115,11 +115,11 @@ export const menus = [
         name: "Cordon bleu",
         description: "Avec pâtes au beurre",
         type: "Déjeuner",
-        choice: "Choix 2",
+        choice: "Menu B",
         center: "Centre A",
         reserved: 2,
         consumed: 1,
-        entree: "Salade carottes",
+        entree: "Salade concombre",
         plat: "Cordon bleu, pâtes au beurre",
         dessert: "Eclair chocolat",
       },
@@ -199,41 +199,53 @@ export const EXCEPTIONAL_DAYS = {
   "2025-12-31": { status: "PARTIAL", message: "Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)" },
 };
 
-// --- AJOUT AUTOMATIQUE DES VENDREDIS ---
+// --- Ajout automatique des jours fermés : vendredi (5), samedi (6), dimanche (0) ---
 menus.forEach((menuDay) => {
   const date = new Date(menuDay.date);
-  if (date.getDay() === 5 && !EXCEPTIONAL_DAYS[menuDay.date]) {
+  const day = date.getDay(); // 0 = dimanche, 5 = vendredi, 6 = samedi
+
+  if ((day === 5 || day === 6 || day === 0) && !EXCEPTIONAL_DAYS[menuDay.date]) {
     EXCEPTIONAL_DAYS[menuDay.date] = {
       status: 'CLOSED',
-      message: 'Aucun déjeuner disponible',
+      message: getClosureMessage(day),
     };
   }
 });
+
+// 🔧 Petite fonction utilitaire pour message personnalisé par jour
+function getClosureMessage(day) {
+  switch (day) {
+    case 5: return "Fermé le Vendredi";
+    case 6: return "Fermé le Samedi";
+    case 0: return "Fermé le Dimanche";
+    default: return "Fermeture exceptionnelle";
+  }
+}
 
 // ** CONSTANTES 
 export const PRICES = {
   FORMATEUR: { 
     PETIT_DEJEUNER: 2.5, 
     ENTREE: 1.5, 
-    DEJEUNER: 7, 
+    DEJEUNER: 4, 
     DINER: 5 },
 
   APPRENANT: { 
     PETIT_DEJEUNER: 2, 
     ENTREE: 1, 
-    DEJEUNER: 6, 
+    DEJEUNER: 2.5, 
     DINER: 4 },
 
   ADMINISTRATIF: { 
     PETIT_DEJEUNER: 3, 
     ENTREE: 2, 
-    DEJEUNER: 8, 
+    DEJEUNER: 6, 
     DINER: 6 },
 
   TECHNIQUE: { 
     PETIT_DEJEUNER: 2.8, 
     ENTREE: 1.8, 
-    DEJEUNER: 7.5, 
+    DEJEUNER: 5, 
     DINER: 5.5 },
 };
 
@@ -249,8 +261,8 @@ export const MEAL_TYPES = {
 };
 
 export const MENU_CHOICES = {
-  CHOIX_1: "Choix 1",
-  CHOIX_2: "Choix 2",
+  CHOIX_1: "Menu A",
+  CHOIX_2: "Menu B",
   NONE: null,
 };
 
