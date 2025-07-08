@@ -8,6 +8,13 @@
   --light: #f8f9fa; /* Couleur fond clair */
   --dark: #343a40; /* Couleur texte sombre */
 
+  --breakpoint-xs: 0; /*Très petit écran (mobile minimal).*/
+  --breakpoint-sm: 576px ; /*Petit écran (mobile standard).*/
+  --breakpoint-md: 768px ; /*Écran moyen (tablette).*/
+  --breakpoint-lg: 992px ; /*Grand écran (desktop petit).*/
+  --breakpoint-xl: 1200px ; /*Très grand écran (desktop standard).*/
+  --breakpoint-xxl: 1440px ; /*Écran extra-large.*/
+
 
 body {
   margin: 0;
@@ -67,7 +74,6 @@ body {
     transform: translateX(0);
   }
 }
-
 
 
 /* Style global pour les titres */
@@ -151,6 +157,7 @@ h1, h2, h3, h4 {
   background-color: var(--dark);
   border-color: var(--dark);
 }
+
 
 /* Styles pour les cartes */
 .card {

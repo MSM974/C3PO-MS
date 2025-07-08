@@ -15,6 +15,7 @@ const MenuList = () => {
 
   const pricePerMeal = getPriceForRole(subRole, 'DEJEUNER');
 
+
   const handleReservation = (dayKey, menuchoice) => {
     if (reservations[dayKey] && reservations[dayKey] !== menuchoice) return;
     setReservations(prev => ({
@@ -32,7 +33,7 @@ const MenuList = () => {
   };
 
   return (
-    <div className="container-fluid min-vh-100">
+
       <div className="container">
         <h1 className="mb-5 text-navy text-center fw-bold">Menus de la semaine</h1>
 
@@ -47,7 +48,7 @@ const MenuList = () => {
           </div>
         )}
 
-        <div className="row flex-nowrap overflow-auto">
+        <div className="row flex-nowrap">
           {menus.map((day, index) => {
             const dayKey = day.date;
             const exceptional = EXCEPTIONAL_DAYS[dayKey];
@@ -67,9 +68,9 @@ const MenuList = () => {
                       {formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)}
                     </h5>
                     {exceptional?.status === 'CLOSED' ? (
-                      <div className="text-center text-danger fw-semibold mt-3">
-                        🚫 {exceptional.message} <br />
-                        <span className="badge bg-danger mt-2">Fermé</span>
+                      <div className="text-center text-danger fw-semibold">
+                        <span className="badge bg-danger fs-5 mb-3">Fermé</span><br />
+                        🚫 {exceptional.message} 
                       </div>
                     ) : day.menus.length > 0 ? (
                       day.menus.map((menu, idx) => (
@@ -97,23 +98,23 @@ const MenuList = () => {
           })}
         </div>
 
+
         {/* Summary */}
         <div className="text-center mt-5">
-          <p className="fw-bold text-success">
+          <h4 className="fw-bold text-green m-3">
             🟢 Menus réservés cette semaine : {totalReserved}/{menus.filter(day => day.menus.length > 0).length}
-          </p>
-          <p className="fw-bold text-warning">
+          </h4>
+          <h3 className="fw-bold text-warning m-4">
             💰 Total à payer : {totalPrice.toFixed(2)} €
-          </p>
+          </h3>
           <button
-            className="btn btn-success fw-bold"
+            className="btn btn-green fs-5 fw-bold"
             onClick={handleSubmit}
             disabled={totalReserved === 0}
           >
             Valider mes réservations
           </button>
         </div>
-      </div>
     </div>
   );
 };

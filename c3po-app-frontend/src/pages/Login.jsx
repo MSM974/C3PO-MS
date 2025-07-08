@@ -27,7 +27,7 @@ const Login = () => {
 
     if (role === 'Utilisateur') {
       localStorage.setItem('subRole', subRole);
-      navigate('/utilisateur', { state: { subRole } });
+      navigate('/liste-de-menus', { state: { subRole } });
     } else if (role === 'Restaurateur') {
       navigate('/restaurateur');
     } else if (role === 'Comptable') {

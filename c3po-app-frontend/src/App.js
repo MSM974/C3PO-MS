@@ -3,9 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import ConstructionPage from './pages/ConstructionPage';
-import MenuList from './components/MenuList';
-import MenuCard from './components/MenuCard';
-import UtilisateurPage from './pages/UtilisateurPage';
+import MenuListPage from './pages/MenuListPage';
+
 
 
 
@@ -16,8 +15,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />  {/* Page d'authentification */}
-
-        <Route path="/utilisateur" element={<UtilisateurPage/>} />  {/* Page Utilisateur */}
+        <Route path="/liste-de-menus" element={<MenuListPage/>} />  {/* Page Liste des menus */}
         <Route path="/restaurateur" element={<ConstructionPage />} />  {/* Page Restaurateur */}
         <Route path="/comptable" element={<ConstructionPage />} />  {/* Page Comptable */}
       </Routes>

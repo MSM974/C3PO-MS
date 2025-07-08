@@ -43,7 +43,7 @@ const MenuCard = ({
         </div>
       )}
 
-      <h5 className="card-type fw-bold m-3 text-center">{choice}</h5>
+      <h5 className="card-type fw-bold text-center">{choice}</h5>
 
       <p className="card-text">
         <strong className="fs-6">Entrée :</strong><br />{entree}

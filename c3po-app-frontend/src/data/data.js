@@ -205,7 +205,7 @@ menus.forEach((menuDay) => {
   if (date.getDay() === 5 && !EXCEPTIONAL_DAYS[menuDay.date]) {
     EXCEPTIONAL_DAYS[menuDay.date] = {
       status: 'CLOSED',
-      message: 'Pour le vendredi',
+      message: 'Aucun déjeuner disponible',
     };
   }
 });
