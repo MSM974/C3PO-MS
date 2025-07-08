@@ -12,7 +12,7 @@
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif!important;
-  background-image: url(/public/side-wave_background.svg)!important;
+  background-image: url(../assets/side-wave_background.svg)!important;
   color: var(--primary);
 }
 

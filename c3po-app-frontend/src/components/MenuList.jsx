@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MenuCard from './MenuCard';
 import { menus, PRICES, EXCEPTIONAL_DAYS } from '../data/data.js';
+import '../css/style.css'; 
 
 /**
  * Display all lunch menus with reservation buttons and handle exceptional days.
