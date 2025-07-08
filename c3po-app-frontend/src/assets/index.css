@@ -1,0 +1,311 @@
+:root {
+  --primary: #2e2e4d; /* Couleur principale */
+  --secondary: #6c757d; /* Couleur secondaire */
+  --success: #00d994; /* Couleur succès */
+  --info: #6cb2eb; /* Couleur info */
+  --warning: #fcc522; /* Couleur avertissement */
+  --danger: #e0525d; /* Couleur danger */
+  --light: #f8f9fa; /* Couleur fond clair */
+  --dark: #343a40; /* Couleur texte sombre */
+
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif!important;
+  background-image: url(/public/side-wave_background.svg)!important;
+  color: var(--primary);
+}
+
+.custom-box {
+  background-color: var(--primary);
+  font-weight: 600;
+  border-radius: 0 1rem 1rem;
+}
+
+@keyframes bounceInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05);
+  }
+  80% {
+    transform: translateY(-5px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.msg-error {
+  background-color: var(--danger);
+  border: red solid 2px;
+  color: var(--light);
+  padding: 10px;
+  border-radius: 0 1rem 1rem;
+  animation: shake 0.6s ease forwards;
+
+}
+
+/* Animation de secousse */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+
+/* Style global pour les titres */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: var(--light);
+}
+
+.text-green {
+  color: var(--success);
+
+}
+
+.text-yellow {
+  color: var(--warning);
+}
+
+/* Style pour les boutons */
+.btn {
+  font-weight: bold;
+  border-radius: 0 1rem 1rem;
+}
+
+.bouton {
+  border-radius: 0 1rem 1rem;
+  background-color: var(--warning);
+}
+
+.btn-yellow {
+  background-color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.btn-yellow:hover {
+  background-color: #fcc52265;
+  border-color: var(--warning);
+}
+
+
+.btn-green {
+  background-color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.btn-green:hover {
+  background-color: #00d994;
+  border-color: var(--dark);
+}
+
+
+.btn-navy {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-navy:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+.btn-grey {
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+.btn-grey:hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+/* Styles pour les cartes */
+.card {
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  border-radius: 15px 15px 0 0;
+}
+
+.card-body {
+
+  padding: 10px;
+  border-radius: 0 0 15px 15px;
+
+}
+
+.card-type {
+  background-color: var(--success);
+  border-radius: 10px;
+  padding: 10px;
+  margin-inline: 50px;
+}
+
+.card-text {
+  font-size: 0.8rem;
+
+}
+
+
+/* Style pour les messages d'erreur */
+.alert {
+  border-radius: 10px;
+}
+
+.alert-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+
+/* FOR PAGE BUILDING */
+
+/* Fond général */
+.construction-container {
+  background-color: fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bloc centré */
+.construction-content {
+  text-align: center;
+  background-color:var(--primary);
+  border-radius: 0 1rem 1rem;
+  padding: 3rem;
+}
+
+/* Icône engrenage tournant */
+.rotating-icon {
+  font-size: 70px;
+  color: var(--warning);
+  animation: rotate 2s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Titre */
+.construction-title {
+  color: var(--success);
+  font-weight: 900;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* Paragraphe */
+.construction-message {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Animation */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+}
+
+
+
+/* Nav bar */
+
+.navbar-container {
+  background-color: #f8f9fad8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 50px;
+  position: relative;
+  margin: 50px;
+
+}
+
+
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100px;
+
+}
+
+.navbar-logo img {
+  height: 100px;
+}
+
+/* Liens */
+.navbar-side {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.navbar-side a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  margin: 0 20px 0 2px;
+}
+
+.navbar-side a:hover {
+  color: var(--warning);
+}
+
+/* Bouton Déconnexion */
+.logout-link {
+  background-color: var(--warning);
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  justify-self: center;
+}
+
+.logout-link:hover {
+  background-color: #e6b800;
+}
