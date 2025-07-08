@@ -1,23 +1,33 @@
-// logic/users.js
-
-
-import { PRICES, USER_TYPES } from '../data/data';
+import { PRICES } from '../data/data.js';
 
 /**
- * Returns the price for a given user sub-role label and meal type.
- * Defaults to DEJEUNER and fallback to APPRENANT if role not found.
- * 
- * @param {string} subRoleLabel - e.g. "Formateur", "Apprenant", etc.
- * @param {string} mealType - e.g. "DEJEUNER", "PETIT_DEJEUNER", "DINER"
+ * Dynamically returns the price for a user sub-role (label or key) and a meal type.
+ *
+ * @param {string|object} subRoleInput - role string or user object with .subRole
+ * @param {string} mealType - e.g. "DEJEUNER", "DINER", etc.
  * @returns {number} - price in euros
  */
-export function getPriceForRole(subRoleLabel = 'Apprenant', mealType = 'DEJEUNER') {
-  // Match the label to its key (e.g. "Formateur" => "FORMATEUR")
-  const key = Object.keys(USER_TYPES).find(
-    k => USER_TYPES[k].toLowerCase() === subRoleLabel.toLowerCase()
-  );
+export function getPriceForRole(subRoleInput = 'Apprenant', mealType = 'DEJEUNER') {
+  let roleKey;
 
-  const roleKey = key ?? 'APPRENANT';
+  if (typeof subRoleInput === 'object' && subRoleInput?.subRole) {
+    subRoleInput = subRoleInput.subRole;
+  }
 
-  return PRICES[roleKey]?.[mealType.toUpperCase()] ?? PRICES.APPRENANT[mealType.toUpperCase()];
+  // Normalise en majuscule pour clé directe
+  const candidate = subRoleInput?.toUpperCase?.() || 'APPRENANT';
+
+  // Si PRICES contient cette clé, c'est une clé valide
+  if (candidate in PRICES) {
+    roleKey = candidate;
+  } else {
+    // Sinon on essaie de matcher contre les valeurs PRICES (labels)
+    roleKey = Object.keys(PRICES).find(
+      k => k.toLowerCase() === subRoleInput.toLowerCase()
+    ) ?? 'APPRENANT';
+  }
+
+  const mealKey = mealType?.toUpperCase?.() || 'DEJEUNER';
+
+  return PRICES[roleKey]?.[mealKey] ?? PRICES.APPRENANT[mealKey] ?? 0;
 }

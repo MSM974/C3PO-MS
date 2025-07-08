@@ -85,6 +85,10 @@ h1, h2, h3, h4 {
   color: var(--warning);
 }
 
+.text-navy {
+  color: var(--primary);
+}
+
 /* Style pour les boutons */
 .btn {
   font-weight: bold;
@@ -163,8 +167,9 @@ h1, h2, h3, h4 {
 
 .card-body {
 
-  padding: 10px;
-  border-radius: 0 0 15px 15px;
+  background-color: var(--primary);
+  padding: 20px;
+  border-radius: 15px;
 
 }
 
