@@ -6,7 +6,9 @@
  * @returns {Array} - lunch for the day
  */
 export function getLunchMenusForDate(menus, date) {
-  return menus.filter(menu => menu.date === date && menu.type === "Déjeuner");
+  const menuDuJour = menus.find(day => day.date === date);
+  if (!menuDuJour) return [];
+  return menuDuJour.menus.filter(menu => menu.type === "Déjeuner");
 }
 
 /**

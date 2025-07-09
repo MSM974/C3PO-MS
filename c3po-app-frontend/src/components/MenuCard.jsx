@@ -2,7 +2,7 @@ import React from 'react';
 import { EXCEPTIONAL_DAYS } from '../data/data.js';
 
 /**
- * Component to display one lunch menu with a reservation button.
+ * Component to display one lunch menu with a reservation btn.
  * Shows alerts for exceptional days (closed or partial).
  *
  * @param {Object} props
@@ -31,19 +31,10 @@ const MenuCard = ({
 
   return (
     <div className="border rounded p-3 bg-white text-navy">
-      {/* Show exceptional day notice */}
-      {exceptionalDay && (
-        <div
-          className={`alert ${
-            exceptionalDay.status === 'CLOSED' ? 'alert-danger' : 'alert-warning'
-          } py-1 px-2 text-center mb-2`}
-          style={{ fontSize: '0.9em' }}
-        >
-          {exceptionalDay.message}
-        </div>
-      )}
 
-      <p className="card-text">
+      <span className="badge-choice align-items-center">{choice}
+      </span>
+      <p className="card-text pt-4">
         <strong className="fs-6">Entrée :</strong><br />{entree}
       </p>
       <p className="card-text">

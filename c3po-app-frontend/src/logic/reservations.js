@@ -84,3 +84,11 @@ export function hasUserReserved(userId, menuId) {
 export function getReservationsByUser(userId) {
   return reservations.filter(r => r.userId === userId);
 }
+
+export function saveReservationsToLocalStorage(reservations) {
+  localStorage.setItem('reservations', JSON.stringify(reservations));
+}
+
+export function loadReservationsFromLocalStorage() {
+  return JSON.parse(localStorage.getItem('reservations')) || [];
+}

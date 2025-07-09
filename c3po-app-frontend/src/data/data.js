@@ -9,7 +9,7 @@ export const menus = [
         name: "Poulet rôti",
         description: "Avec pommes de terre",
         type: "Déjeuner",
-        choice: "Menu A",
+        choice: "Choix 1",
         center: "Centre A",
         reserved: 5,
         consumed: 3,
@@ -22,7 +22,7 @@ export const menus = [
         name: "Gratin dauphinois",
         description: "Sans viande",
         type: "Déjeuner",
-        choice: "Menu B",
+        choice: "Choix 2",
         center: "Centre A",
         reserved: 2,
         consumed: 1,
@@ -40,7 +40,7 @@ export const menus = [
         name: "Poisson au four",
         description: "Avec riz haricots rouges",
         type: "Déjeuner",
-        choice: "Menu A",
+        choice: "Choix 1",
         center: "Centre A",
         reserved: 4,
         consumed: 3,
@@ -53,7 +53,7 @@ export const menus = [
         name: "Cordon bleu",
         description: "Avec haricots blancs",
         type: "Déjeuner",
-        choice: "Menu B",
+        choice: "Choix 2",
         center: "Centre A",
         reserved: 5,
         consumed: 2,
@@ -71,7 +71,7 @@ export const menus = [
         name: "Sauté de Dinde",
         description: "Avec lentilles",
         type: "Déjeuner",
-        choice: "Menu A",
+        choice: "Choix 1",
         center: "Centre A",
         reserved: 3,
         consumed: 2,
@@ -84,7 +84,7 @@ export const menus = [
         name: "Cuisse poulet sarcive",
         description: "Avec pois du cap",
         type: "Déjeuner",
-        choice: "Menu B",
+        choice: "Choix 2",
         center: "Centre A",
         reserved: 1,
         consumed: 0,
@@ -102,7 +102,7 @@ export const menus = [
         name: "Steak frites",
         description: "Maison",
         type: "Déjeuner",
-        choice: "Menu A",
+        choice: "Choix 1",
         center: "Centre A",
         reserved: 6,
         consumed: 5,
@@ -115,7 +115,7 @@ export const menus = [
         name: "Cordon bleu",
         description: "Avec pâtes au beurre",
         type: "Déjeuner",
-        choice: "Menu B",
+        choice: "Choix 2",
         center: "Centre A",
         reserved: 2,
         consumed: 1,
@@ -125,10 +125,39 @@ export const menus = [
       },
     ],
   },
+
   {
-    date: "2025-07-18", // Vendredi (pas de menu)
-    menus: [],
+    date: "2025-07-18", // Vendredi
+    menus: [
+      {
+        id: "menu-009",
+        name: "Classique",
+        description: "Café ou thé, croissant, jus d’orange",
+        type: "Petit Déjeuner",
+        choice: "Choix 1",
+        center: "Centre A",
+        reserved: 10,
+        consumed: 8,
+        entree: "Boissons au choix",
+        plat: "Viennoiseries",
+        dessert: "Fruits"
+      },
+      {
+        id: "menu-010",
+        name: "Formule santé",
+        description: "0 matières grasses",
+        type: "Petit Déjeuner",
+        choice: "Choix 2",
+        center: "Centre A",
+        reserved: 4,
+        consumed: 3,
+        entree: "Boissons au choix",
+        plat: "Pain complet & confiture",
+        dessert: "Fromage blanc"
+      }
+    ]
   },
+
 ];
 
 // ** RESERVATIONS
@@ -153,7 +182,7 @@ export const reservations = [
 export const users = [
   {
     id: "user-001",
-    name: "Mathilde Simatave",
+    name: "Mathilde",
     email: "m.s@example.com",
     roleId: "role-001",
   },
@@ -175,7 +204,7 @@ export const roles = [
   {
     id: "role-002",
     name: "Utilisateur",
-    permissions: ["reserve_menu"],
+    permissions: ["view_menu_list","reserve_menu"],
   },
 
   { 
@@ -196,26 +225,36 @@ export const EXCEPTIONAL_DAYS = {
   "2025-06-09": { status: "CLOSED", message: "Férié (Lundi de Pentecôte)" },
   "2025-07-14": { status: "CLOSED", message: "Férié (Fête nationale)" },
   "2025-12-25": { status: "CLOSED", message: "Férié (Noël)" },
-  "2025-12-31": { status: "PARTIAL", message: "Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)" },
+  "2025-07-11": { status: "PARTIAL", message: "Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)" },
 };
 
-// --- Ajout automatique des jours fermés : vendredi (5), samedi (6), dimanche (0) ---
+// --- Ajout automatique des jours fermés : samedi (6), dimanche (0) ---
 menus.forEach((menuDay) => {
   const date = new Date(menuDay.date);
   const day = date.getDay(); // 0 = dimanche, 5 = vendredi, 6 = samedi
 
-  if ((day === 5 || day === 6 || day === 0) && !EXCEPTIONAL_DAYS[menuDay.date]) {
-    EXCEPTIONAL_DAYS[menuDay.date] = {
-      status: 'CLOSED',
-      message: getClosureMessage(day),
-    };
+  // S'il n'y a PAS déjà une exception définie
+  if (!EXCEPTIONAL_DAYS[menuDay.date]) {
+    if (day === 5) {
+      // Tous les vendredis sont PARTIAL
+      EXCEPTIONAL_DAYS[menuDay.date] = {
+        status: 'PARTIAL',
+        message: 'Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)',
+      };
+    } else if (day === 6 || day === 0) {
+      // Samedi et dimanche sont CLOSED
+      EXCEPTIONAL_DAYS[menuDay.date] = {
+        status: 'CLOSED',
+        message: getClosureMessage(day),
+      };
+    }
   }
 });
+
 
 // 🔧 Petite fonction utilitaire pour message personnalisé par jour
 function getClosureMessage(day) {
   switch (day) {
-    case 5: return "Fermé le Vendredi";
     case 6: return "Fermé le Samedi";
     case 0: return "Fermé le Dimanche";
     default: return "Fermeture exceptionnelle";
@@ -224,29 +263,30 @@ function getClosureMessage(day) {
 
 // ** CONSTANTES 
 export const PRICES = {
-  FORMATEUR: { 
-    PETIT_DEJEUNER: 2.5, 
-    ENTREE: 1.5, 
-    DEJEUNER: 4, 
-    DINER: 5 },
-
-  APPRENANT: { 
-    PETIT_DEJEUNER: 2, 
-    ENTREE: 1, 
-    DEJEUNER: 2.5, 
-    DINER: 4 },
-
-  ADMINISTRATIF: { 
-    PETIT_DEJEUNER: 3, 
-    ENTREE: 2, 
-    DEJEUNER: 6, 
-    DINER: 6 },
-
-  TECHNIQUE: { 
-    PETIT_DEJEUNER: 2.8, 
-    ENTREE: 1.8, 
-    DEJEUNER: 5, 
-    DINER: 5.5 },
+  FORMATEUR: {
+    PETIT_DEJEUNER: 2.5,
+    ENTREE: 1.5,
+    DEJEUNER: 7,
+    DINER: 5,
+  },
+  APPRENANT: {
+    PETIT_DEJEUNER: 2,
+    ENTREE: 1,
+    DEJEUNER: 6,
+    DINER: 4,
+  },
+  ADMINISTRATIF: {
+    PETIT_DEJEUNER: 3,
+    ENTREE: 2,
+    DEJEUNER: 8,
+    DINER: 6,
+  },
+  TECHNIQUE: {
+    PETIT_DEJEUNER: 2.8,
+    ENTREE: 1.8,
+    DEJEUNER: 7.5,
+    DINER: 5.5,
+  },
 };
 
 export const CENTERS = {
@@ -261,8 +301,8 @@ export const MEAL_TYPES = {
 };
 
 export const MENU_CHOICES = {
-  CHOIX_1: "Menu A",
-  CHOIX_2: "Menu B",
+  CHOIX_1: "Choix 1",
+  CHOIX_2: "Choix 2",
   NONE: null,
 };
 
