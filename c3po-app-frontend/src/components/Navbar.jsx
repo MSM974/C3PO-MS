@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoC3PO from '../assets/images/C3PO_logo.png';
 
@@ -7,19 +7,15 @@ const ROLES = ['Utilisateur', 'Restaurateur', 'Comptable'];
 const Navbar = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState(localStorage.getItem('userRole') || '');
-  const [error, setError] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleConnexion = () => {
-    if (!role) {
-      setError('Veuillez sélectionner un rôle.');
-      setTimeout(() => setError(''), 3000);
-      return;
+   // 🔁 Ce useEffect s'exécute à chaque montage pour synchroniser le rôle avec le localStorage
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    if (storedRole) {
+      setRole(storedRole);
     }
-
-    localStorage.setItem('userRole', role);
-    navigate('/liste-de-menus');
-  };
+  }, []);
 
   const handleLogout = () => {
     if (window.confirm('Voulez-vous vous déconnecter ?')) {
@@ -38,18 +34,18 @@ const Navbar = () => {
         ☰
       </button>
 
-      {/* Liens à gauche */}
-      <div className={`navbar-side ${isOpen ? 'active' : ''}`}>
-        <a href="/liste-de-menus">Liste des menus</a>
-        {role === 'Restaurateur' && <a href="/#">Gestion des menus</a>}
-        {role === 'Comptable' && <a href="/#">Statistiques</a>}
-      </div>
 
       {/* Logo centré */}
       <div className="navbar-logo">
         <a href="/">
           <img src={logoC3PO} alt="Logo C3PO" />
         </a>
+      </div>
+      {/* Liens à gauche */}
+      <div className={`navbar-side ${isOpen ? 'active' : ''}`}>
+        <a href="/liste-de-menus">Liste des menus</a>
+        {role === 'Restaurateur' && <a href="/#">Gestion des menus</a>}
+        {role === 'Comptable' && <a href="/#" >Statistiques</a>}
       </div>
 
       {/* Rôle + Déconnexion */}
@@ -71,7 +67,7 @@ const Navbar = () => {
           Déconnexion
         </button>
 
-        {error && <div className="text-danger mt-1">{error}</div>}
+
       </div>
     </nav>
   );

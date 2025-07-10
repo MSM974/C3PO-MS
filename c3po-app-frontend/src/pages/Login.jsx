@@ -5,23 +5,23 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [role, setRole] = useState('');
-  const [subRole, setSubRole] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleConnexion = () => {
-    if (!role) {
-      setError('Veuillez sélectionner un rôle pour continuer.');
-      setTimeout(() => setError(''), 5000);
-      return;
-    }
+const handleConnexion = () => {
+  if (!role) {
+    setError('Veuillez sélectionner un rôle pour continuer.');
+    setTimeout(() => setError(''), 5000);
+    return;
+  }
 
-    localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('userRole', role); // Sauvegarde le rôle sélectionné
 
-    if (role === 'Utilisateur' || role === 'Restaurateur' || role === 'Comptable') {
-      navigate('/accueil');
-    }
-  };
+  if (role === 'Utilisateur' || role === 'Restaurateur' || role === 'Comptable') {
+    navigate('/accueil');
+  }
+};
 
   return (
     <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
@@ -37,7 +37,6 @@ const Login = () => {
             value={role}
             onChange={(e) => {
               setRole(e.target.value);
-              setSubRole(''); // reset subRole when changing role
             }}
           >
             <option value="">-- Choisissez un rôle --</option>

@@ -30,6 +30,21 @@
   border-radius: 0 1rem 1rem;
 }
 
+.menu-col {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.c3po-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background-color: var(--light);
+
+  border-radius: 0 1rem 1rem;
+}
 
 .c3po-table td {
   background-color: var(--primary);
@@ -37,7 +52,8 @@
   align-content: center;
   font-weight: 700;
   padding: 10px;
-  margin: 20px;
+  margin: 10px;
+
 
 }
 

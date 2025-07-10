@@ -30,7 +30,7 @@ const MenuList = () => {
 
   const handleSubmit = () => {
     const confirmation = window.confirm(
-      `Vous avez réservé ${totalReserved} jour(s).\n Total : ${totalPrice.toFixed(2)} €\n\nSouhaitez-vous confirmer ces réservations ?`
+      `Vous avez réservé ${totalReserved} menu(s). ✅\n 🧾Total : ${totalPrice.toFixed(2)} € 💶\n\nSouhaitez-vous confirmer ces réservations ?`
     );
 
     if (confirmation) {
@@ -88,7 +88,7 @@ const MenuList = () => {
       ) : (
         <>
           {/* TABLEAU DESKTOP */}
-          <div className="d-none d-md-block resize-box">
+          <div className="d-none d-md-block">
             <table className="table c3po-table">
               <tbody>
                 {filteredJours.map(jour => {
@@ -119,27 +119,50 @@ const MenuList = () => {
                         </td>
                       ) : (
                         <>
-                          <td>
-                            <MenuCard
-                              dayKey={jour.date}
-                              choice={'Choix 1'}
-                              {...lunchMenus.find(m => m.choice === 'Choix 1')}
-                              price={pricePerMeal.toFixed(2)}
-                              isSelected={isSelected(jour.date, 'Choix 1')}
-                              isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 1'}
-                              onReservation={handleReservation}
-                            />
-                          </td>
-                          <td>
-                            <MenuCard
-                              dayKey={jour.date}
-                              choice={'Choix 2'}
-                              {...lunchMenus.find(m => m.choice === 'Choix 2')}
-                              price={pricePerMeal.toFixed(2)}
-                              isSelected={isSelected(jour.date, 'Choix 2')}
-                              isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 2'}
-                              onReservation={handleReservation}
-                            />
+                          <td className='menu-col'>
+                            {/* Choix 1 */}
+                            {(() => {
+                              const menu = lunchMenus.find(m => m.choice === 'Choix 1');
+                              const hide = reservations[jour.date] && reservations[jour.date] !== 'Choix 1';
+
+                              return (
+                                <td>
+                                  {!hide && menu ? (
+                                    <MenuCard
+                                      dayKey={jour.date}
+                                      choice="Choix 1"
+                                      {...menu}
+                                      price={pricePerMeal.toFixed(2)}
+                                      isSelected={isSelected(jour.date, 'Choix 1')}
+                                      isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 1'}
+                                      onReservation={handleReservation}
+                                    />
+                                  ) : null}
+                                </td>
+                              );
+                            })()}
+
+                            {/* Choix 2 */}
+                            {(() => {
+                              const menu = lunchMenus.find(m => m.choice === 'Choix 2');
+                              const hide = reservations[jour.date] && reservations[jour.date] !== 'Choix 2';
+
+                              return (
+                                <td>
+                                  {!hide && menu ? (
+                                    <MenuCard
+                                      dayKey={jour.date}
+                                      choice="Choix 2"
+                                      {...menu}
+                                      price={pricePerMeal.toFixed(2)}
+                                      isSelected={isSelected(jour.date, 'Choix 2')}
+                                      isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 2'}
+                                      onReservation={handleReservation}
+                                    />
+                                  ) : null}
+                                </td>
+                              );
+                            })()}
                           </td>
                         </>
                       )}
@@ -181,29 +204,26 @@ const MenuList = () => {
                     </div>
                   ) : (
                     <>
-                      <div className='mt-3'>
-                        <MenuCard
-                          dayKey={jour.date}
-                          choice={'Choix 1'}
-                          {...lunchMenus.find(m => m.choice === 'Choix 1')}
-                          price={pricePerMeal.toFixed(2)}
-                          isSelected={isSelected(jour.date, 'Choix 1')}
-                          isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 1'}
-                          onReservation={handleReservation}
-                        />
-                      </div>
+                      {['Choix 1', 'Choix 2'].map(choice => {
+                        const menu = lunchMenus.find(m => m.choice === choice);
+                        const alreadyReserved = reservations[jour.date] && reservations[jour.date] !== choice;
 
-                      <div className='mt-3'>
-                        <MenuCard
-                          dayKey={jour.date}
-                          choice={'Choix 2'}
-                          {...lunchMenus.find(m => m.choice === 'Choix 2')}
-                          price={pricePerMeal.toFixed(2)}
-                          isSelected={isSelected(jour.date, 'Choix 2')}
-                          isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 2'}
-                          onReservation={handleReservation}
-                        />
-                      </div>
+                        if (alreadyReserved) return null;
+
+                        return (
+                          <div key={choice} className="mt-3">
+                            <MenuCard
+                              dayKey={jour.date}
+                              choice={choice}
+                              {...menu}
+                              price={pricePerMeal.toFixed(2)}
+                              isSelected={isSelected(jour.date, choice)}
+                              isDisabled={reservations[jour.date] && reservations[jour.date] !== choice}
+                              onReservation={handleReservation}
+                            />
+                          </div>
+                        );
+                      })}
                     </>
                   )}
                 </div>
@@ -216,7 +236,7 @@ const MenuList = () => {
       {/* Résumé des réservations */}
       <div className="card-mobile text-light mt-4 px-3">
         <p>
-          🟢 Vous avez réservé <span className='text-green fs-4 fw-bold'>{totalReserved}</span> jour(s)<br />
+          🟢 Vous avez réservé <span className='text-green fs-4 fw-bold'>{totalReserved}</span> menu(s)<br />
           💰 Prix total : <span className='text-yellow fs-4 fw-bold'>{totalPrice.toFixed(2)} €</span>
         </p>
 
