@@ -32,7 +32,7 @@ const MenuCard = ({
   return (
     <div className="border rounded p-3 bg-white text-navy">
 
-      <span className="badge-choice align-items-center">{choice}
+      <span className="badge-choice align-items-start">{choice}
       </span>
       <p className="card-text pt-4">
         <strong className="fs-6">Entrée :</strong><br />{entree}

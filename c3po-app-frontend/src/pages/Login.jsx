@@ -16,21 +16,10 @@ const Login = () => {
       return;
     }
 
-    if (role === 'Utilisateur' && !subRole) {
-      setError("Quel type d'utilisateur êtes-vous?");
-      setTimeout(() => setError(''), 5000);
-      return;
-    }
-
     localStorage.setItem('isLoggedIn', 'true');
 
-    if (role === 'Utilisateur') {
-      localStorage.setItem('subRole', subRole);
-      navigate('/liste-de-menus', { state: { subRole } });
-    } else if (role === 'Restaurateur') {
-      navigate('/restaurateur');
-    } else if (role === 'Comptable') {
-      navigate('/comptable');
+    if (role === 'Utilisateur' || role === 'Restaurateur' || role === 'Comptable') {
+      navigate('/accueil');
     }
   };
 
@@ -56,27 +45,6 @@ const Login = () => {
             <option>Restaurateur</option>
             <option>Comptable</option>
           </select>
-
-          {role === 'Utilisateur' && (
-            <div className="text-center mt-3">
-              <label htmlFor="subRole" className="form-label fw-semibold text-warning">
-                Sélectionnez votre sous-rôle :
-              </label>
-              <select
-                id="subRole"
-                className="form-select w-50 mx-auto"
-                value={subRole}
-                onChange={(e) => setSubRole(e.target.value)}
-              >
-                <option value="">-- Choisissez un sous-rôle --</option>
-                <option value="Apprenant">Apprenant</option>
-                <option value="Formateur">Formateur</option>
-                <option value="Administratif">Administratif</option>
-                <option value="Technique">Technique</option>
-              </select>
-
-            </div>
-          )}
 
           <button className="fw-bold btn btn-warning mt-3" onClick={handleConnexion}>
             Se connecter

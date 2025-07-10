@@ -30,14 +30,14 @@ const MenuList = () => {
 
   const handleSubmit = () => {
     const confirmation = window.confirm(
-      `📝 Vous avez réservé ${totalReserved} jour(s).\n💰 Total : ${totalPrice.toFixed(2)} €\n\nSouhaitez-vous confirmer ces réservations ?`
+      `Vous avez réservé ${totalReserved} jour(s).\n Total : ${totalPrice.toFixed(2)} €\n\nSouhaitez-vous confirmer ces réservations ?`
     );
 
     if (confirmation) {
-      alert(`✅ Réservations confirmées !\nBon appétit ! 🍽️`);
+      alert(`Réservations confirmées ✅`);
       
     } else {
-      alert(`❌ Réservations annulées. Vous pouvez les modifier avant de valider.`);
+      alert(`Réservations annulées. Vous pouvez les modifier avant de valider.`);
     }
   };
 
@@ -100,7 +100,7 @@ const MenuList = () => {
                     menu.dessert.toLowerCase().includes(searchTerm)
                   );
 
-                  if (lunchMenus.length === 0 && !exceptional) return null; // 👈 masque la carte
+                  if (lunchMenus.length === 0 && !exceptional) return null; 
                   return (
                     <tr className='table-date' key={jour.date}>
                       <td><p className='text-light fs-5'>{jour.formattedDate}</p></td>
