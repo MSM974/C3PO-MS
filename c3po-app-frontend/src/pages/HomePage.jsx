@@ -28,15 +28,13 @@ const Home = () => {
           <div className="logo">
             <FontAwesomeIcon icon={faFaceSmile} className="smiley-heartbeat" />
           </div>
-          <h1 className="Home-title">Bonjour</h1>
+          <h1 className="Home-title">Bienvenue<br></br> sur la page d'accueil de <br></br><span className='logo-text'>C<span className="text-green">3</span>P<span className="text-warning">O</span></span></h1>
           <p className="Home-message">
-            Bienvenue sur la page d'accueil de C<span className="text-green">3</span>P<span className="text-warning">O</span><br />
-            
+
+          Votre espace de réservation de repas en entreprise.<br></br>
+          Consultez les menus proposés cette semaine <br></br>et réservez 
+          vos repas en quelques clics !
           </p>
-          {/* Bouton de retour */}
-          <button className="btn btn-warning mt-4" onClick={() => navigate('/')}>
-            Retour à l'accueil
-          </button>
           <br></br>
         </div>
       </div>

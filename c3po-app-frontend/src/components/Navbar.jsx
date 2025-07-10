@@ -37,15 +37,15 @@ const Navbar = () => {
 
       {/* Logo centré */}
       <div className="navbar-logo">
-        <a href="/">
+        <a href="/accueil">
           <img src={logoC3PO} alt="Logo C3PO" />
         </a>
       </div>
       {/* Liens à gauche */}
       <div className={`navbar-side ${isOpen ? 'active' : ''}`}>
         <a href="/liste-de-menus">Liste des menus</a>
-        {role === 'Restaurateur' && <a href="/#">Gestion des menus</a>}
-        {role === 'Comptable' && <a href="/#" >Statistiques</a>}
+        {role === 'Restaurateur' && <a href="/construction">Gestion des menus</a>}
+        {role === 'Comptable' && <a href="/construction" >Statistiques</a>}
       </div>
 
       {/* Rôle + Déconnexion */}

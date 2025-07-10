@@ -31,23 +31,18 @@ const MenuCard = ({
 
   return (
     <div className="border rounded p-3 bg-white text-navy">
-
-      <span className="badge-choice align-items-start">{choice}
-      </span>
+      <span className="badge-choice align-items-start">{choice}</span>
       <p className="card-text pt-4">
-        <strong className="fs-6">Entrée :</strong><br />{entree}
-      </p>
+        <strong className="fs-6">Entrée :</strong><br />{entree}</p>
       <p className="card-text">
-        <strong className="fs-6">Plat :</strong><br />{plat}
-      </p>
+        <strong className="fs-6">Plat :</strong><br />{plat}</p>
       <p className="card-text">
-        <strong className="fs-6">Dessert :</strong><br />{dessert}
-      </p>
+        <strong className="fs-6">Dessert :</strong><br />{dessert}</p>
 
-      {/* Price and action button */}
       <div className="d-flex justify-content-between align-items-center mt-3">
         <p className="mb-0 fw-bold">Prix : {price} €</p>
 
+      {/* Price and action button */}
         {isDisabled || exceptionalDay?.status === 'CLOSED' ? (
           <button className="btn btn-light border-0 text-muted" disabled>
             
