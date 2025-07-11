@@ -1,6 +1,7 @@
 import { PRICES } from '../data/data.js';
 
 /**
+ * CANCELLED FUNCTION BEACAUSE I WANTED TO GET PRICES WITH SUBROLE SUCH AS 'APPRENANT
  * Dynamically returns the price for a user sub-role (label or key) and a meal type.
  *
  * @param {string|object} subRoleInput - role string or user object with .subRole

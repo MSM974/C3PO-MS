@@ -1,7 +1,7 @@
 // logic/reservations.js ere all functions for reservations
 
-import { reservations } from '../data/data.js';
-import { generateUniqueId } from './uniqueID.js';
+export { reservations } from '../data/data.js';
+
 
 /** FOR RESERVATION
  * Reserve a menu for a user if it's available and if it's opened
@@ -43,52 +43,4 @@ export function reserveMenu(menus, reservations, userId, menuId, date, EXCEPTION
   menu.reserved += 1;
 
   return { status: "success", message: "Réservation confirmée." };
-}
-
-/**
- * CANCELLATION WITH ID
- * @param {Array} reservations - reservations ID
- * @param {string} resaId - the ID's reservation 
- * @param {Array} menus - the array's menu to decrement
- * @returns {boolean} - true if cancelled, false else
- */
-export function cancelReservation(reservations, resaId, menus = []) {
-  const index = reservations.findIndex(r => r.id === resaId);
-  if (index === -1) return false;
-
-  // Decrement the reservation count for the menu concerned
-  const menu = menus.find(m => m.id === reservations[index].menuId);
-  if (menu && menu.reserved > 0) {
-    menu.reserved -= 1;
-  }
-
-  reservations.splice(index, 1);
-  return true;
-}
-
-/**
- * Check if the user has already reserved
- * @param {string} userId
- * @param {string} menuId
- * @returns {boolean}
- */
-export function hasUserReserved(userId, menuId) {
-  return reservations.some(r => r.userId === userId && r.menuId === menuId);
-}
-
-/**
- * Return the user's reservation
- * @param {string} userId
- * @returns {Array}
- */
-export function getReservationsByUser(userId) {
-  return reservations.filter(r => r.userId === userId);
-}
-
-export function saveReservationsToLocalStorage(reservations) {
-  localStorage.setItem('reservations', JSON.stringify(reservations));
-}
-
-export function loadReservationsFromLocalStorage() {
-  return JSON.parse(localStorage.getItem('reservations')) || [];
 }
