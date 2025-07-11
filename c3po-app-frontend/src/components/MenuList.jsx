@@ -85,7 +85,7 @@ const MenuList = () => {
         <div className="alert alert-danger text-center my-4">
           ❌ Aucun menu ne correspond à votre recherche.
         </div>
-      ) : (
+      ) : ( 
         <>
           {/* TABLEAU DESKTOP */}
           <div className="d-none d-md-block">

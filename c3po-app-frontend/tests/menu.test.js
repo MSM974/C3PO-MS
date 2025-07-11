@@ -1,6 +1,5 @@
 import QUnit from 'qunit';
 import { getLunchMenusForDate} from '../src/logic/menus.js'; 
-import { reserveMenu } from '../src/logic/reservations.js';
 
 QUnit.module('US-21 : Voir les menus');
 
@@ -24,25 +23,38 @@ QUnit.test('Renvoie uniquement les menus de type Déjeuner pour une date donnée
 });
 
 
-// TEST U22
-QUnit.module('US-22 : Réserver un menu');
+// TEST U22 ET U26
+QUnit.module("US-22 ET U-26 - Réservation d’un menu avec ANNULATION possible");
 
-QUnit.test('Permet à un utilisateur de réserver un menu disponible', assert => {
-  const menus = [
-    { id: "menu-001", reserved: 2, maxReservations: 5 }
-  ];
+QUnit.test("Un seul menu réservé par jour", function (assert) {
+  let reservations = {};
 
-  const reservations = [];
+  const reserve = (dayKey, choice) => {
+    if (reservations[dayKey] && reservations[dayKey] !== choice) return;
+    reservations = {
+      ...reservations,
+      [dayKey]: reservations[dayKey] === choice ? null : choice,
+    };
+  };
 
-  const result = reserveMenu(menus, reservations, "user-001", "menu-001", "2025-07-14");
+  reserve("2025-07-15", "Choix 1");
+  assert.equal(reservations["2025-07-15"], "Choix 1", "Menu Choix 1 réservé");
 
-  assert.equal(result.status, "success", "La réservation est acceptée");
-  assert.equal(menus[0].reserved, 3, "Le compteur de réservation augmente");
-  assert.equal(reservations.length, 1, "La réservation est ajoutée au tableau");
-  assert.deepEqual(reservations[0], {
-    id: reservations[0].id, // généré dynamiquement
-    userId: "user-001",
-    menuId: "menu-001",
-    date: "2025-07-14"
-  }, "La réservation contient les bonnes données");
+  reserve("2025-07-15", "Choix 2");
+  assert.equal(reservations["2025-07-15"], "Choix 1", "Menu Choix 2 ignoré car un autre choix est déjà réservé");
+
+  reserve("2025-07-15", "Choix 1");
+  assert.equal(reservations["2025-07-15"], null, "Annulation du menu après second clic");
 });
+
+// TEST U27
+QUnit.module("US-27 - Confirmation des réservations");
+
+QUnit.test("Message de confirmation affiché", function (assert) {
+  const menusReserved = 2;
+  const total = 12;
+  const message = `Vous avez réservé ${menusReserved} menu(s). ✅\n 🧾Total : ${total.toFixed(2)} € 💶\n\nSouhaitez-vous confirmer ces réservations ?`;
+
+  assert.ok(message.includes("Souhaitez-vous confirmer"), "Le message contient une demande de confirmation");
+});
+

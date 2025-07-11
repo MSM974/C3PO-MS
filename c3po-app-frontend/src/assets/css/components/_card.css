@@ -6,14 +6,6 @@
   background-color: #f8f9fad8;
   margin: 50px;
 }
-.search-input {
-  max-width: 250px;
-  padding: 0.4rem 0.8rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
 .menu-title {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -22,21 +14,25 @@
   color: var(--primary);
   border-radius: 0 1rem 1rem;
 }
-
 .menu-grid {
   display: flex;
   flex-direction: column;
   background-color: var(--primary);
   border-radius: 0 1rem 1rem;
 }
-
 .menu-col {
   display: flex;
   flex-direction: row;
   justify-content: center;
   border-radius: 10px;
 }
-
+.search-input {
+  max-width: 250px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 .c3po-table {
   width: 100%;
   border-collapse: collapse;
@@ -45,7 +41,6 @@
 
   border-radius: 0 1rem 1rem;
 }
-
 .c3po-table td {
   background-color: var(--primary);
   color: var(--success);
@@ -56,8 +51,6 @@
 
 
 }
-
-
 .table-date {
   background-color: var(--success);
   color: var(--primary);
@@ -69,9 +62,6 @@
   border-radius: 10px;
 
 }
-
-
-
 .table-exceptional {
   color: var(--danger);
   background-color: var(--light);
@@ -80,7 +70,6 @@
   font-weight: 700;
   border-radius: 10px;
 }
-
 .card-exceptional {
   color: var(--danger);
   background-color: var(--primary);
@@ -88,8 +77,6 @@
   padding: 20px;
   font-weight: 700;
 }
-
-
 .card-mobile {
 
   background-color: var(--primary);
@@ -98,8 +85,6 @@
   border-radius: 0 1rem 1rem;
 
 }
-
-
 .date-mobile {
   color: var(--primary);
   background-color: var(--success);
@@ -108,7 +93,6 @@
   border-radius: 10px;
   text-align: center;
 }
-
 .badge-choice {
   background-color: var(--warning);
   color: var(--primary);

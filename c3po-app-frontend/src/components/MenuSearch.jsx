@@ -16,6 +16,7 @@ const MenuSearch = ({ searchTerm, onSearch }) => {
       value={searchTerm}
       onChange={(e) => onSearch(e.target.value)}
       className="form-control mb-4"
+      aria-label="Champ de recherche de menu"
     />
   );
 };
