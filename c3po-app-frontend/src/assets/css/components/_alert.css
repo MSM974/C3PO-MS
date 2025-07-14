@@ -1,0 +1,21 @@
+/* Style pour les messages d'erreur */
+.alert {
+  border-radius: 10px;
+}
+
+.alert-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* ERROR  */
+
+.msg-error {
+  background-color: var(--danger);
+  border: red solid 2px;
+  color: var(--light);
+  padding: 10px;
+  border-radius: 0 1rem 1rem;
+  animation: shake 0.6s ease forwards;
+
+}

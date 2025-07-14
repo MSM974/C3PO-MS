@@ -1,0 +1,17 @@
+:root {
+  --primary: #2e2e4d; /* Couleur principale */
+  --secondary: #6c757d; /* Couleur secondaire */
+  --success: #00d994; /* Couleur succès */
+  --info: #6cb2eb; /* Couleur info */
+  --warning: #fcc522; /* Couleur avertissement */
+  --danger: #e0525d; /* Couleur danger */
+  --light: #f8f9fa; /* Couleur fond clair */
+  --dark: #343a40; /* Couleur texte sombre */
+
+  --breakpoint-xs: 0; /*Très petit écran (mobile minimal).*/
+  --breakpoint-sm: 576px ; /*Petit écran (mobile standard).*/
+  --breakpoint-md: 768px ; /*Écran moyen (tablette).*/
+  --breakpoint-lg: 992px ; /*Grand écran (desktop petit).*/
+  --breakpoint-xl: 1200px ; /*Très grand écran (desktop standard).*/
+  --breakpoint-xxl: 1440px ; /*Écran extra-large.*/
+}

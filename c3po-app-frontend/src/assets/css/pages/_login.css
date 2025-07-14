@@ -1,0 +1,5 @@
+.custom-box {
+  background-color: var(--primary);
+  font-weight: 600;
+  border-radius: 0 1rem 1rem;
+}

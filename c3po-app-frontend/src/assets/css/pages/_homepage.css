@@ -1,0 +1,39 @@
+/* FOR PAGE BUILDING */
+
+/* Fond général */
+.Home-container {
+  background-color: fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding-top: 50px;
+}
+
+/* Bloc centré */
+.Home-content {
+  text-align: center;
+  background-color:var(--primary);
+  border-radius: 0 1rem 1rem;
+  padding: 3rem;
+}
+
+/* Titre */
+.Home-title {
+  color: var(--light);
+  font-weight: 900;
+  margin: 20px;
+}
+
+/* Paragraphe */
+.Home-message {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.logo-text {
+  font-size: 4rem;
+
+}
+

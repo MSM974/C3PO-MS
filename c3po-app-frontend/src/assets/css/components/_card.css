@@ -1,0 +1,100 @@
+/* Styles pour les cartes */
+.menu-wrapper {
+  padding: 50px;
+  max-width: 100%;
+  overflow-x: auto;
+  background-color: #f8f9fad8;
+  margin: 50px;
+}
+.wrapper-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: var(--primary);
+  border-radius: 0 1rem 1rem;
+}
+
+
+
+
+.menu-title{
+
+  font-size: 18px;
+  text-decoration: underline;
+  font-weight: 700;
+}
+.td-navy {
+  background-color: var(--primary)!important ;
+  padding: 10px;
+  border-radius: 10px;
+}
+.td-date {
+  background-color: #f8f9fa !important;
+}
+
+.table-closed {
+  background-color: var(--danger);
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 800;
+  margin-top: 10px;
+}
+.table-partial {  
+  background-color: var(--secondary);
+  color: var(--dark);
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-weight: 800;
+}
+.table-date {
+  color: var(--success);
+  font-weight: 800;
+  text-align: center;
+}
+
+.badge-choice {
+  background-color: var(--warning);
+  border-radius: 0 1rem 1rem;
+  padding: 5px;
+  font-weight: 700;
+}
+
+/* FOR MOBILE */
+
+.card-closed {
+  background-color: var(--danger);
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-weight: 800;
+}
+
+.card-partial {
+  background-color: var(--secondary);
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-weight: 800;
+}
+.card-mobile  {
+  background-color: var(--primary);
+  padding: 20px;
+  border-radius: 0 1rem 1rem;
+
+}
+
+.date-mobile {
+  color: var(--primary);
+  background-color: var(--success);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  font-weight: 800;
+
+}

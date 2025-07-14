@@ -1,0 +1,105 @@
+.navbar-container {
+  background-color: #f8f9fad8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+  margin: 50px;
+  z-index: 20;
+}
+
+/* Logo centré */
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100px;
+}
+.navbar-logo img { height: 110px; }
+
+.navbar-side {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Liens */
+.navbar-side a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  margin: 0 20px 0 2px;
+}
+.navbar-side a:hover { color: var(--warning); }
+
+.logout-link {
+  background-color: var(--warning);
+  color: var(--primary) !important;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* BOUTON BURGER */
+.burger {
+  font-size: 32px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  display: none;
+  z-index: 30;
+}
+
+@media (max-width: 1024px) {
+  .navbar-side .form-select {
+    width: 90px !important;
+    font-size: 0.9rem;
+  }
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .navbar-logo {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 20px;
+  }
+  .burger {
+    display: block;
+    position: absolute;
+    right: 70px;
+    top: 50px;
+    font-size: 40px;
+  }
+  .navbar-side {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    display: none;
+    background: #fff;
+    box-shadow: 0 4px 24px #0002;
+    border-radius: 12px;
+    margin-top: 10px;
+    z-index: 25;
+    padding: 10px 0;
+  }
+  .navbar-side.active {
+    display: flex;
+  }
+  .navbar-side select,
+  .navbar-side button {
+    width: 90%;
+  }
+
+}
