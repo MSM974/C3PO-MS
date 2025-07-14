@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MenuCard from './MenuCard';
 import MenuSearch from './MenuSearch';
-import { menus, EXCEPTIONAL_DAYS } from '../data/data.js';
-import { getPriceForRole } from '../logic/users.js';
-import { getLunchMenusForDate } from '../logic/menus.js';
+import { menus, EXCEPTIONAL_DAYS, PRICES } from '../data/data.js';
+import { getLunchMenusForDate, filterMenus, applyAutoClosures } from '../logic/menus.js';
+import { updateReservation, isMenuSelected, getConfirmationMessage } from '../logic/reservations.js';
 
+// Fonction de normalisation pour la recherche
+function normalize(str) {
+  return (str || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
 
 const MenuList = () => {
   const location = useLocation();
@@ -14,156 +21,126 @@ const MenuList = () => {
   const [reservations, setReservations] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
 
-  const pricePerMeal = getPriceForRole(subRole, 'DEJEUNER');
+  const pricePerMeal = PRICES[subRole.toUpperCase()]?.DEJEUNER ?? PRICES.APPRENANT.DEJEUNER;
 
   const handleReservation = (dayKey, menuchoice) => {
-    if (reservations[dayKey] && reservations[dayKey] !== menuchoice) return;
-    setReservations(prev => ({
-      ...prev,
-      [dayKey]: prev[dayKey] === menuchoice ? null : menuchoice,
-    }));
+    setReservations(prev => updateReservation(prev, dayKey, menuchoice));
   };
 
-  const isSelected = (dayKey, menuchoice) => reservations[dayKey] === menuchoice;
+  const isSelected = (dayKey, menuchoice) => {
+    return isMenuSelected(reservations, dayKey, menuchoice);
+  };
+
   const totalReserved = Object.values(reservations).filter(Boolean).length;
   const totalPrice = totalReserved * pricePerMeal;
 
   const handleSubmit = () => {
-    const confirmation = window.confirm(
-      `Vous avez réservé ${totalReserved} menu(s). ✅\n 🧾Total : ${totalPrice.toFixed(2)} € 💶\n\nSouhaitez-vous confirmer ces réservations ?`
-    );
+    const message = getConfirmationMessage(totalReserved, totalPrice);
+    const confirmation = window.confirm(message);
 
     if (confirmation) {
       alert(`Réservations confirmées ✅`);
-      
     } else {
       alert(`Réservations annulées. Vous pouvez les modifier avant de valider.`);
     }
   };
 
-  const jours = menus.map(day => ({
-    ...day,
-    formattedDate: new Date(day.date).toLocaleDateString("fr-FR", {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-    }).replace(/^./, str => str.toUpperCase())
-  }));
+  // --- Ici on filtre les jours du lundi (1) au vendredi (5) présents dans le data.js
+  const jours = menus
+    .map(day => ({
+      ...day,
+      formattedDate: new Date(day.date).toLocaleDateString("fr-FR", {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }).replace(/^./, str => str.toUpperCase())
+    }))
+    .filter(day => {
+      const jsDate = new Date(day.date);
+      const dayOfWeek = jsDate.getDay(); // 1=lundi, ... 5=vendredi
+      return dayOfWeek >= 1 && dayOfWeek <= 5;
+    });
 
+  // --- On applique les exceptions automatiques (vendredi PARTIAL, week-end CLOSED si jamais il y en a)
+  applyAutoClosures(jours, EXCEPTIONAL_DAYS);
+
+  // --- On filtre selon la recherche (menus + exceptions)
   const hasMenuError = !Array.isArray(menus) || menus.length === 0;
-
-
-  // Filtrer les jours en fonction de la recherche
-  const filteredJours = jours.filter(jour => {
-    const lunchMenus = getLunchMenusForDate(menus, jour.date).filter(menu =>
-      menu.entree.toLowerCase().includes(searchTerm) ||
-      menu.plat.toLowerCase().includes(searchTerm) ||
-      menu.dessert.toLowerCase().includes(searchTerm)
-    );
-
-    // Si la recherche est vide → on garde tous les jours y compris les fermetures
-    if (searchTerm.trim() === '') {
-      return lunchMenus.length > 0 || EXCEPTIONAL_DAYS[jour.date];
-    }
-
-    // Si une recherche est active → garder uniquement les jours avec menus correspondants
-    return lunchMenus.length > 0;
-  });
+  const filteredJours = filterMenus(jours, searchTerm, menus, EXCEPTIONAL_DAYS);
 
   return (
     <div className="menu-wrapper">
-      <h1 className="menu-title">Menus de la semaine</h1>
+      <h1 className="wrapper-title">Menus de la semaine</h1>
 
       {hasMenuError ? (
         <div className="alert alert-danger text-center my-4">
           ❌ Erreur lors du chargement des menus, veuillez réessayer.
         </div>
-      ) : (
-        <></> )}
-      {/* Barre de recherche */}
+      ) : null}
+
       <MenuSearch searchTerm={searchTerm} onSearch={setSearchTerm} />
 
       {filteredJours.length === 0 ? (
         <div className="alert alert-danger text-center my-4">
           ❌ Aucun menu ne correspond à votre recherche.
         </div>
-      ) : ( 
+      ) : (
         <>
           {/* TABLEAU DESKTOP */}
-          <div className="d-none d-md-block">
-            <table className="table c3po-table">
+          <div className="table-responsive d-none d-md-block">
+            <table className="table td-navy">
               <tbody>
                 {filteredJours.map(jour => {
                   const exceptional = EXCEPTIONAL_DAYS[jour.date];
+                  const lunchMenus = getLunchMenusForDate(menus, jour.date);
 
-                  const lunchMenus = getLunchMenusForDate(menus, jour.date).filter(menu =>
-                    menu.entree.toLowerCase().includes(searchTerm) ||
-                    menu.plat.toLowerCase().includes(searchTerm) ||
-                    menu.dessert.toLowerCase().includes(searchTerm)
+                  const filteredMenus = lunchMenus.filter(menu =>
+                    normalize(menu.entree).includes(normalize(searchTerm)) ||
+                    normalize(menu.plat).includes(normalize(searchTerm)) ||
+                    normalize(menu.dessert).includes(normalize(searchTerm))
                   );
 
-                  if (lunchMenus.length === 0 && !exceptional) return null; 
-                  return (
-                    <tr className='table-date' key={jour.date}>
-                      <td><p className='text-light fs-5'>{jour.formattedDate}</p></td>
+                  // Affiche la ligne si menu ou exception
+                  if (filteredMenus.length === 0 && !(exceptional && exceptional.status)) return null;
 
+                  return (
+                    <tr key={jour.date}>
+                      <td className='td-navy'><p className='table-date fs-5'>{jour.formattedDate}</p></td>
                       {exceptional?.status === 'CLOSED' ? (
-                        <td colSpan={2} className="text-center">
-                          <div className="table-exceptional">
-                            <h5 className="mb-2">🔒 {exceptional.message}</h5>
+                        <td colSpan={2} className="td-navy">
+                          <div className="table-closed">
+                            <p className="mb-2">🔒 {exceptional.message}</p>
                           </div>
                         </td>
-                      ) : lunchMenus.length === 0 ? (
-                        <td colSpan={2}> <h5 className="table-exceptional text-secondary">
-                          {exceptional?.status === 'PARTIAL'
-                            ? exceptional.message
-                            : 'Aucun déjeuner disponible'}</h5>
+                      ) : filteredMenus.length === 0 ? (
+                        <td colSpan={2} className='td-navy'>
+                          <p className="table-partial">
+                            {exceptional?.status === 'PARTIAL'
+                              ? exceptional.message
+                              : 'Aucun déjeuner disponible'}
+                          </p>
                         </td>
                       ) : (
                         <>
-                          <td className='menu-col'>
-                            {/* Choix 1 */}
-                            {(() => {
-                              const menu = lunchMenus.find(m => m.choice === 'Choix 1');
-                              const hide = reservations[jour.date] && reservations[jour.date] !== 'Choix 1';
-
-                              return (
-                                <td>
-                                  {!hide && menu ? (
-                                    <MenuCard
-                                      dayKey={jour.date}
-                                      choice="Choix 1"
-                                      {...menu}
-                                      price={pricePerMeal.toFixed(2)}
-                                      isSelected={isSelected(jour.date, 'Choix 1')}
-                                      isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 1'}
-                                      onReservation={handleReservation}
-                                    />
-                                  ) : null}
-                                </td>
-                              );
-                            })()}
-
-                            {/* Choix 2 */}
-                            {(() => {
-                              const menu = lunchMenus.find(m => m.choice === 'Choix 2');
-                              const hide = reservations[jour.date] && reservations[jour.date] !== 'Choix 2';
-
-                              return (
-                                <td>
-                                  {!hide && menu ? (
-                                    <MenuCard
-                                      dayKey={jour.date}
-                                      choice="Choix 2"
-                                      {...menu}
-                                      price={pricePerMeal.toFixed(2)}
-                                      isSelected={isSelected(jour.date, 'Choix 2')}
-                                      isDisabled={reservations[jour.date] && reservations[jour.date] !== 'Choix 2'}
-                                      onReservation={handleReservation}
-                                    />
-                                  ) : null}
-                                </td>
-                              );
-                            })()}
-                          </td>
+                          {filteredMenus.map(menu => {
+                            const hide = reservations[jour.date] && reservations[jour.date] !== menu.choice;
+                            return (
+                              <td className='td-navy' key={menu.choice}>
+                                {!hide ? (
+                                  <MenuCard
+                                    dayKey={jour.date}
+                                    choice={menu.choice}
+                                    {...menu}
+                                    price={pricePerMeal.toFixed(2)}
+                                    isSelected={isSelected(jour.date, menu.choice)}
+                                    isDisabled={reservations[jour.date] && reservations[jour.date] !== menu.choice}
+                                    onReservation={handleReservation}
+                                  />
+                                ) : null}
+                              </td>
+                            );
+                          })}
                         </>
                       )}
                     </tr>
@@ -175,27 +152,27 @@ const MenuList = () => {
 
           {/* VERSION MOBILE */}
           <div className="d-md-none">
-          {filteredJours.map(jour => {
-            const exceptional = EXCEPTIONAL_DAYS[jour.date];
+            {filteredJours.map(jour => {
+              const exceptional = EXCEPTIONAL_DAYS[jour.date];
+              const lunchMenus = getLunchMenusForDate(menus, jour.date);
 
-            const lunchMenus = getLunchMenusForDate(menus, jour.date).filter(menu =>
-              menu.entree.toLowerCase().includes(searchTerm) ||
-              menu.plat.toLowerCase().includes(searchTerm) ||
-              menu.dessert.toLowerCase().includes(searchTerm)
-            );
+              const filteredMenus = lunchMenus.filter(menu =>
+                normalize(menu.entree).includes(normalize(searchTerm)) ||
+                normalize(menu.plat).includes(normalize(searchTerm)) ||
+                normalize(menu.dessert).includes(normalize(searchTerm))
+              );
 
-            if (lunchMenus.length === 0 && !exceptional) return null; // 👈 masque la carte
+              if (filteredMenus.length === 0 && !(exceptional && exceptional.status)) return null;
 
               return (
                 <div key={jour.date} className="mb-4 card-mobile">
                   <h5 className='date-mobile'>{jour.formattedDate}</h5>
-                  
                   {exceptional?.status === 'CLOSED' ? (
-                    <div className="card-exceptional"> 
-                      <h5 className="m-0"> {exceptional.message}</h5>
+                    <div className="card-closed">
+                      <p className="m-0">{exceptional.message}</p>
                     </div>
-                  ) : lunchMenus.length === 0 ? (
-                    <div className="card-exceptional text-secondary">
+                  ) : filteredMenus.length === 0 ? (
+                    <div className="card-partial bg-secondary">
                       <p className="m-0">
                         {exceptional?.status === 'PARTIAL'
                           ? exceptional.message
@@ -204,21 +181,18 @@ const MenuList = () => {
                     </div>
                   ) : (
                     <>
-                      {['Choix 1', 'Choix 2'].map(choice => {
-                        const menu = lunchMenus.find(m => m.choice === choice);
-                        const alreadyReserved = reservations[jour.date] && reservations[jour.date] !== choice;
-
+                      {filteredMenus.map(menu => {
+                        const alreadyReserved = reservations[jour.date] && reservations[jour.date] !== menu.choice;
                         if (alreadyReserved) return null;
-
                         return (
-                          <div key={choice} className="mt-3">
+                          <div key={menu.choice} className="mt-3">
                             <MenuCard
                               dayKey={jour.date}
-                              choice={choice}
+                              choice={menu.choice}
                               {...menu}
                               price={pricePerMeal.toFixed(2)}
-                              isSelected={isSelected(jour.date, choice)}
-                              isDisabled={reservations[jour.date] && reservations[jour.date] !== choice}
+                              isSelected={isSelected(jour.date, menu.choice)}
+                              isDisabled={reservations[jour.date] && reservations[jour.date] !== menu.choice}
                               onReservation={handleReservation}
                             />
                           </div>

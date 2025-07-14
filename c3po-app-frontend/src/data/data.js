@@ -225,41 +225,10 @@ export const EXCEPTIONAL_DAYS = {
   "2025-06-09": { status: "CLOSED", message: "Férié (Lundi de Pentecôte)" },
   "2025-07-14": { status: "CLOSED", message: "Férié (Fête nationale)" },
   "2025-12-25": { status: "CLOSED", message: "Férié (Noël)" },
-  "2025-07-11": { status: "PARTIAL", message: "Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)" },
+  "2025-07-18": { status: "PARTIAL", message: "Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)" },
 };
 
-// --- Ajout automatique des jours fermés : samedi (6), dimanche (0) ---
-menus.forEach((menuDay) => {
-  const date = new Date(menuDay.date);
-  const day = date.getDay(); // 0 = dimanche, 5 = vendredi, 6 = samedi
 
-  // S'il n'y a PAS déjà une exception définie
-  if (!EXCEPTIONAL_DAYS[menuDay.date]) {
-    if (day === 5) {
-      // Tous les vendredis sont PARTIAL
-      EXCEPTIONAL_DAYS[menuDay.date] = {
-        status: 'PARTIAL',
-        message: 'Ouvert jusqu’à 11h30 (Petit déjeuner uniquement)',
-      };
-    } else if (day === 6 || day === 0) {
-      // Samedi et dimanche sont CLOSED
-      EXCEPTIONAL_DAYS[menuDay.date] = {
-        status: 'CLOSED',
-        message: getClosureMessage(day),
-      };
-    }
-  }
-});
-
-
-// 🔧 Petite fonction utilitaire pour message personnalisé par jour
-function getClosureMessage(day) {
-  switch (day) {
-    case 6: return "Fermé le Samedi";
-    case 0: return "Fermé le Dimanche";
-    default: return "Fermeture exceptionnelle";
-  }
-}
 
 // ** CONSTANTES 
 export const PRICES = {

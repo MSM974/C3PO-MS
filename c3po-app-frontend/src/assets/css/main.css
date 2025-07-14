@@ -6,6 +6,7 @@
 @import './animations/_animations.css';
 
 @import './components/_navbar.css';
+@import './components/_footer.css';
 @import './components/_buttons.css';
 @import './components/_card.css';
 @import './components/_alert.css';

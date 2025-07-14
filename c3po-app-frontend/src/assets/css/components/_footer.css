@@ -1,0 +1,9 @@
+
+
+.footer-container {
+  background-color: #f8f9fad8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}

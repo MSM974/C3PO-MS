@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MenuList from '../components/MenuList';
 import Navbar from '../components/Navbar';
+import Footer from '../components/MyFooter';
 
 const MenuListPage = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const MenuListPage = () => {
       {subRole && (
         <MenuList user={{ subRole }} />
       )}
+      <Footer/>
     </div>
   );
 };

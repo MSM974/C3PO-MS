@@ -1,46 +1,46 @@
-// logic/reservations.js ere all functions for reservations
-
-export { reservations } from '../data/data.js';
-
-
-/** FOR RESERVATION
- * Reserve a menu for a user if it's available and if it's opened
- * @param {Array} menus - all available menus
- * @param {Array} reservations - reservations arrays exists
- * @param {string} userId - user ID
- * @param {string} menuId - menu ID to reserve
- * @param {string} date - reservation day (format ISO)
- * @param {Array} EXCEPTIONAL_DAYS - closed day
- * @returns {Object} - { status: "success" | "error", message: string }
+/**
+ * Update reservations object for a given day and menu choice.
+ *
+ * - If the same menu is clicked again → cancel the reservation (toggle)
+ * - If another choice is already selected for the day → ignore the action
+ *
+ * @param {Object} currentReservations - Current reservations object (e.g., { "2025-07-14": "Choix 1" })
+ * @param {string} dayKey - Date string (YYYY-MM-DD)
+ * @param {string} menuchoice - "Choix 1" or "Choix 2"
+ * @returns {Object} - Updated reservations object
  */
-export function reserveMenu(menus, reservations, userId, menuId, date, EXCEPTIONAL_DAYS = []) {
-  // Check if it's a closed day
-  if (EXCEPTIONAL_DAYS.some(d => d.date === date && d.status === "CLOSED")) {
-    return { status: "error", message: "Le service est fermé ce jour-là." };
+export function updateReservation(currentReservations, dayKey, menuchoice) {
+  if (currentReservations[dayKey] && currentReservations[dayKey] !== menuchoice) {
+    return currentReservations; // Another choice already selected → ignore
   }
 
-  const menu = menus.find(m => m.id === menuId);
-  if (!menu) return { status: "error", message: "Menu introuvable." };
-
-  if (menu.reserved >= menu.maxReservations) {
-    return { status: "error", message: "Plus de places disponibles." };
-  }
-
-  if (hasUserReserved(userId, menuId)) {
-    return { status: "error", message: "Vous avez déjà réservé ce menu." };
-  }
-
-  const newReservation = {
-    id: generateUniqueId('resa'),
-    userId,
-    menuId,
-    date,
-    choice: "A",
-    createdAt: new Date().toISOString()
+  return {
+    ...currentReservations,
+    [dayKey]: currentReservations[dayKey] === menuchoice ? null : menuchoice,
   };
+}
 
-  reservations.push(newReservation);
-  menu.reserved += 1;
+/**
+ * Check if a menu choice is selected for a specific day.
+ *
+ * @param {Object} reservations - Reservations object
+ * @param {string} dayKey - Date string
+ * @param {string} menuchoice - Menu choice
+ * @returns {boolean} - True if the choice is selected
+ */
+export function isMenuSelected(reservations, dayKey, menuchoice) {
+  return reservations[dayKey] === menuchoice;
+}
 
-  return { status: "success", message: "Réservation confirmée." };
+/**
+ * Generate a user-friendly confirmation message summarizing reservations.
+ *
+ * @param {number} menusReserved - Total number of reserved menus
+ * @param {number} totalPrice - Total price (in €)
+ * @returns {string} - Confirmation message string
+ */
+export function getConfirmationMessage(menusReserved, totalPrice) {
+  return `Vous avez réservé ${menusReserved} menu(s). ✅\n` +
+         `🧾Total : ${totalPrice.toFixed(2)} € 💶\n\n` +
+         `Souhaitez-vous confirmer ces réservations ?`;
 }

@@ -16,7 +16,7 @@ const handleConnexion = () => {
   }
 
   localStorage.setItem('isLoggedIn', 'true');
-  localStorage.setItem('userRole', role); // Sauvegarde le rôle sélectionné
+  localStorage.setItem('userRole', role); // Save the selected role
 
   if (role === 'Utilisateur' || role === 'Restaurateur' || role === 'Comptable') {
     navigate('/accueil');

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import Navbar from '../components/Navbar';
+import Footer from '../components/MyFooter';
 
 
 const Home = () => {
@@ -38,6 +39,7 @@ const Home = () => {
           <br></br>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

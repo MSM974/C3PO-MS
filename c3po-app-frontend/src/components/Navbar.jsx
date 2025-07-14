@@ -63,7 +63,7 @@ const Navbar = () => {
           ))}
         </select>
 
-        <button className="logout-link" onClick={handleLogout}>
+        <button className="btn logout-link" onClick={handleLogout}>
           Déconnexion
         </button>
 

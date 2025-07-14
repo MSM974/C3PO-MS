@@ -1,6 +1,6 @@
 .smiley-heartbeat {
   font-size: 4rem;
-  color: #FACD10; /* ou une autre couleur si tu veux */
+  color: var(--warning); 
   animation: heartbeat 1.5s infinite;
 }
 

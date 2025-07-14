@@ -1,5 +1,5 @@
 import QUnit from 'qunit';
-import { getLunchMenusForDate} from '../src/logic/menus.js'; 
+import { getLunchMenusForDate, filterMenus} from '../src/logic/menus.js'; 
 
 QUnit.module('US-21 : Voir les menus');
 
@@ -56,5 +56,50 @@ QUnit.test("Message de confirmation affiché", function (assert) {
   const message = `Vous avez réservé ${menusReserved} menu(s). ✅\n 🧾Total : ${total.toFixed(2)} € 💶\n\nSouhaitez-vous confirmer ces réservations ?`;
 
   assert.ok(message.includes("Souhaitez-vous confirmer"), "Le message contient une demande de confirmation");
+});
+
+
+// TEST FILTERMENU
+
+QUnit.module("Recherche insensible à la casse et aux accents");
+
+QUnit.test("Trouver un plat même si l'utilisateur tape sans accent ni majuscule", assert => {
+  const jours = [
+    { date: "2025-07-14", formattedDate: "Lundi 14 juillet 2025" }
+  ];
+  const menus = [
+    {
+      date: "2025-07-14",
+      menus: [
+        { id: "menu-001", entree: "Salade", plat: "Poulet rôti", dessert: "Flan", type: "Déjeuner", choice: "Choix 1" },
+        { id: "menu-002", entree: "Salade Verte", plat: "Gratin dauphinois", dessert: "Tarte", type: "Déjeuner", choice: "Choix 2" }
+      ]
+    }
+  ];
+  const exceptionalDays = {};
+
+  // Test 1 : recherche "poulet"
+  let filtered = filterMenus(jours, "poulet", menus, exceptionalDays);
+  assert.equal(filtered.length, 1, "Le jour est trouvé avec 'poulet'");
+
+  // Test 2 : recherche "POULET" (majuscules)
+  filtered = filterMenus(jours, "POULET", menus, exceptionalDays);
+  assert.equal(filtered.length, 1, "Le jour est trouvé avec 'POULET'");
+
+  // Test 3 : recherche "pôûlét" (accents bizarres)
+  filtered = filterMenus(jours, "pôûlét", menus, exceptionalDays);
+  assert.equal(filtered.length, 1, "Le jour est trouvé avec 'pôûlét'");
+
+  // Test 4 : recherche "GRATIN" (autre plat)
+  filtered = filterMenus(jours, "GRATIN", menus, exceptionalDays);
+  assert.equal(filtered.length, 1, "Le jour est trouvé avec 'GRATIN'");
+
+  // Test 5 : recherche "tarte" (dessert)
+  filtered = filterMenus(jours, "tarte", menus, exceptionalDays);
+  assert.equal(filtered.length, 1, "Le jour est trouvé avec 'tarte'");
+
+  // Test 6 : recherche qui ne doit rien trouver
+  filtered = filterMenus(jours, "lasagne", menus, exceptionalDays);
+  assert.equal(filtered.length, 0, "Aucun jour trouvé avec 'lasagne'");
 });
 
